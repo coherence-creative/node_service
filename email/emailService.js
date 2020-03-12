@@ -1,7 +1,7 @@
 const sgMail = require("@sendgrid/mail");
 const axios = require("axios");
 
-// sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 const userWithSubs = [
   {
@@ -27,20 +27,30 @@ const redditData = async subArray => {
     const response = await axios.get(sub);
     const data = await response;
     let posts = data.data.data.children;
-    return {
-      sub: sub,
-      posts: posts.map(post => {
-        return {
-          title: post.data.title,
-          sub: post.data.subreddit,
-          link: post.data.permalink,
-          thumb: post.data.thumbnail
-        };
+    // return {
+      // sub: sub,
+      // posts: posts.map(post => {
+      //   return {
+      //     title: post.data.title,
+      //     sub: post.data.subreddit,
+      //     link: post.data.permalink,
+      //     thumb: post.data.thumbnail
+      //   };
+      // })
+      // '<h1>' + sub  + '</h1>'
+      let subName = `<h1>${sub}</h1>` 
+      let postData = posts.map(post => {
+        return '<h3>'+ post.data.title +'</h3>' + '<img src="'+ post.data.thumbnail +'">' + '<br><br>'
       })
-    };
+      let template = `<div><div>${subName}</div><div>${postData}</div></div>`
+      // return subName + postData
+      return template
+    // }
   });
   const subData = await Promise.all(dataArray);
-  return subData;
+  // return subData;
+  const flatSubData = subData.join('')
+  return flatSubData
 };
 
 // const emailMaker = async () => {
@@ -54,7 +64,7 @@ userWithSubs.forEach(async user => {
     html: await redditData(user.subs)
   };
   console.log(email);
-  // subsArray.push(email);
+  sgMail.send(email);
 });
 // }
 // console.log(subsArray);
