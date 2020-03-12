@@ -37,7 +37,6 @@ const redditData = async subArray => {
       //     thumb: post.data.thumbnail
       //   };
       // })
-      // '<h1>' + sub  + '</h1>'
       let subName = `<h1>${sub}</h1>` 
       let postData = posts.map(post => {
         return '<h3>'+ post.data.title +'</h3>' + '<img src="'+ post.data.thumbnail +'">' + '<br><br>'
@@ -48,7 +47,6 @@ const redditData = async subArray => {
     // }
   });
   const subData = await Promise.all(dataArray);
-  // return subData;
   const flatSubData = subData.join('')
   return flatSubData
 };
@@ -63,8 +61,12 @@ userWithSubs.forEach(async user => {
     text: "The Top Posts From All Your Favorite Subs",
     html: await redditData(user.subs)
   };
-  console.log(email);
-  sgMail.send(email);
+  try {
+    console.log(email)
+    sgMail.send(email);
+  } catch (error) {
+    console.log(error)
+  }
 });
 // }
 // console.log(subsArray);
