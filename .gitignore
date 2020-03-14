@@ -1,1 +1,4 @@
 sendgrid.env
+db_info.env
+.env
+node_modules
