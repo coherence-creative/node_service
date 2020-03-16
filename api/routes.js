@@ -16,7 +16,7 @@ router.get("/subscribe", async (req, res) => {
 
 router.get("/update", async (req, res) => {
   let email = req.body.email;
-  let sub = "https://api.reddit.com/r/" + req.body.sub + "/";
+  let sub = "https://api.reddit.com/r/" + req.body.sub + "/top/";
   //   let email = req.params.email;
   //   let sub = "https://api.reddit.com/r/" + req.params.sub + "/";
   try {
