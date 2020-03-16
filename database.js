@@ -1,22 +1,20 @@
-require('dotenv').config()
+require("dotenv").config();
 const mongoose = require("mongoose");
 
-// const dbPath = "mongodb://<dbuser>:<dbpassword>@ds250607.mlab.com:38485/test-db";
-
-const dbPath = process.env.DB_URL
+const dbPath = process.env.DB_URL;
 mongoose.connect(dbPath, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
+  useNewUrlParser: true,
+  useUnifiedTopology: true
 });
 
 const db = mongoose.connection;
 
 db.on("error", () => {
-    console.log("> error occurred from the database");
+  console.log("> error occurred from the database");
 });
 
 db.once("open", () => {
-    console.log("> successfully opened the database");
+  console.log("> successfully opened the database");
 });
 
-module.exports = mongoose;
+module.exports = db;

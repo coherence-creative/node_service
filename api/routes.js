@@ -1,37 +1,42 @@
-const express = require('express')
-const router = express.Router()
-const axios = require("axios")
+const express = require("express");
+const router = express.Router();
+const UserModel = require("../dbmodel");
+const sendEmail = require("../email/emailService");
 
-router.get("/test", (req, res) => {
-    res.send("butts")
-})
+router.get("/subscribe", async (req, res) => {
+  let email = req.body.email;
+  try {
+    let user = new UserModel({ email: email });
+    let result = await user.save();
+    res.status(200).send(result);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
 
-router.get("/subscribe/:email", async (req, res) => {
-    let email = req.params.email
-    
-    const response = await axios.post("https://node-service-aa18b.firebaseio.com/users.json", { "email": email })
-    const data = await response
-    console.log(data)
-    res.send("Subscribed!")
-})
+router.get("/update", async (req, res) => {
+  let email = req.body.email;
+  let sub = "https://api.reddit.com/r/" + req.body.sub + "/";
+  //   let email = req.params.email;
+  //   let sub = "https://api.reddit.com/r/" + req.params.sub + "/";
+  try {
+    let user = await UserModel.findOne({ email: email }).exec();
+    let userSubs = user.subs;
+    userSubs.push(sub);
+    res.status(200).send(user);
+  } catch (error) {
+    res.status(500).send(user);
+  }
+});
 
-router.get("/update/:email", async (req, res) => {
-    let email = req.params.email
-    // let sub = req.params.sub
-    const response = await axios.get("https://node-service-aa18b.firebaseio.com/data.json")
-    const data = await response
-    // res.send(data)
-    console.log(data.data)
-    res.send("Working on it")
-    // data.map(data => {
-    //     if (data === this.email) {
-    //         console.log("Found")
-    //         res.send("Found")
-    //     } else {
-    //         console.log("Not Found")
-    //         res.send("Not Found")
-    //     }
-    // })
-})
+router.get("/unsubscribe", async (req, res) => {
+  let email = req.body.email;
+  try {
+    var result = await PersonModel.deleteOne({ email: email }).exec();
+    res.status(200).send(result);
+  } catch (error) {
+    console.log(error);
+  }
+});
 
 module.exports = router;
