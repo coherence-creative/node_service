@@ -14,12 +14,18 @@ const routes = require("./api/routes");
 
 app.use("/", routes);
 
-// var job = new CronJob('18 15 * * *', () => {
-//    console.log("cron running")
-//    mongoData();
-// }, null, true, 'America/Denver')
+var job = new CronJob(
+  "18 15 * * *",
+  () => {
+    console.log("cron running");
+    mongoData();
+  },
+  null,
+  true,
+  "America/Denver"
+);
 
-// job.start()
+job.start();
 
 app.listen(port, function() {
   console.log("Server started on port: " + port);
