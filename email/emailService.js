@@ -54,7 +54,7 @@ const sendEmail = async () => {
     console.log(user.subs);
     let email = {
       to: user.email,
-      from: "chay.arnold@gmail.com",
+      from: "example_sender@gmail.com",
       subject: "Reddit Email",
       text: "The Top Posts From All Your Favorite Subs",
       html: await redditData(user.subs)
