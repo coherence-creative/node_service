@@ -6,7 +6,7 @@ sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 // const userWithSubs = [
 //   {
-//     email: "chay.arnold@gmail.com",
+//     email: "example1@gmail.com",
 //     subs: [
 //       "https://api.reddit.com/r/funny/top/",
 //       "https://api.reddit.com/r/gaming/top/",
@@ -14,7 +14,7 @@ sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 //     ]
 //   },
 //   {
-//     email: "chayinvalid@gmail.com",
+//     email: "example2@gmail.com",
 //     subs: [
 //       "https://api.reddit.com/r/science/top/",
 //       "https://api.reddit.com/r/oddlysatisfying/top/",
